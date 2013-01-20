@@ -33,12 +33,13 @@ namespace Spring.Transaction.Support
 	/// </remarks>
 	/// <author>Juergen Hoeller</author>
 	/// <author>Griffin Caprio (.NET)</author>
-	public abstract class ResourceHolderSupport
+	public abstract class ResourceHolderSupport : IResourceHolder
 	{
 		private bool synchronizedWithTransaction = false;
 		private bool rollbackOnly = false;
 		private DateTime deadline;
         private int referenceCount = 0;
+	    private bool isVoid = false;
 		
 		/// <summary>
 		/// Mark the resource as synchronized with a transaction.
@@ -91,7 +92,7 @@ namespace Spring.Transaction.Support
 			get
 			{
 			    int secs = (int)Math.Ceiling( TimeToLiveInMilliseconds / 1000 );
-                checkTransactionTimeout(secs <= 0);
+                CheckTransactionTimeout(secs <= 0);
                 return secs;
 			}
 		}
@@ -111,15 +112,13 @@ namespace Spring.Transaction.Support
 					throw new ArgumentException( "No deadline specified for this resource holder.");
 				}
                 TimeSpan duration = deadline - DateTime.Now;
-                checkTransactionTimeout(duration.TotalMilliseconds <= 0);
+                CheckTransactionTimeout(duration.TotalMilliseconds <= 0);
 			    if (duration.TotalMilliseconds > 0)
 			    {
                     return duration.TotalMilliseconds;
 			    }
-			    else
-			    {
-                    return 0;
-			    }
+
+                return 0;
 			}
 		}
 
@@ -147,7 +146,7 @@ namespace Spring.Transaction.Support
             }
         }
 
-        private void checkTransactionTimeout(bool deadlineReached)
+        private void CheckTransactionTimeout(bool deadlineReached)
         {
             if (deadlineReached)
             {
@@ -193,6 +192,29 @@ namespace Spring.Transaction.Support
                 return (referenceCount > 0);
             }
         }
+
+	    /// <summary>
+	    /// Reset the transactional state of this holder.
+	    /// </summary>
+	    public void Reset()
+        {
+            Clear();
+            referenceCount = 0;
+        }
+
+	    /// <summary>
+	    /// Notify this holder that it has been unbound from transaction synchronization.
+	    /// </summary>
+	    public void Unbound()
+        {
+            isVoid = true;
+        }
+
+	    /// <summary>
+	    /// Determine whether this holder is considered as 'void',
+	    /// i.e. as a leftover from a previous thread.
+	    /// </summary>
+	    public bool IsVoid { get { return isVoid; }}
        
 	}
 }

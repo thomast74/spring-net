@@ -136,6 +136,13 @@
     <Compile Include="Dao\Support\PersistenceExceptionTranslationInterceptor.cs" />
     <Compile Include="Dao\TypeMismatchDataAccessException.cs" />
     <Compile Include="Dao\UncategorizedDataAccessException.cs" />
+    <Compile Include="Data\Annotation\IdProperty.cs" />
+    <Compile Include="Data\Annotation\PersistenceConstructorAttribute.cs" />
+    <Compile Include="Data\Annotation\PersistentAttribute.cs" />
+    <Compile Include="Data\Annotation\ReferenceAttribute.cs" />
+    <Compile Include="Data\Annotation\TransientAttribute.cs" />
+    <Compile Include="Data\Annotation\TypeAliasAttribute.cs" />
+    <Compile Include="Data\Annotation\VersionAttribute.cs" />
     <Compile Include="Data\BadSqlGrammarException.cs" />
     <Compile Include="Data\CommandDelegate.cs" />
     <Compile Include="Data\Common\DbMetadata.cs" />
@@ -158,6 +165,9 @@
     <Compile Include="Data\Common\MultiDelegatingDbProvider.cs" />
     <Compile Include="Data\Common\UserCredentialsDbProvider.cs" />
     <Compile Include="Data\Config\DatabaseNamespaceParser.cs" />
+    <Compile Include="Data\Convert\IEntityConverter.cs" />
+    <Compile Include="Data\Convert\IEntityReader.cs" />
+    <Compile Include="Data\Convert\IEntityWriter.cs" />
     <Compile Include="Data\Core\AdoAccessor.cs" />
     <Compile Include="Data\Core\AdoDaoSupport.cs" />
     <Compile Include="Data\Core\AdoPlatformTransactionManager.cs" />
@@ -178,6 +188,29 @@
     <Compile Include="Data\Generic\RowMapperResultSetExtractor.cs" />
     <Compile Include="Data\ICommonAdoOperations.cs" />
     <Compile Include="Data\IDataReaderWrapper.cs" />
+    <Compile Include="Data\Mapping\Association.cs" />
+    <Compile Include="Data\Mapping\Context\AbstractMappingContext.cs" />
+    <Compile Include="Data\Mapping\Context\DefaultPersistentPropertyPath.cs" />
+    <Compile Include="Data\Mapping\Context\IMappingContext.cs" />
+    <Compile Include="Data\Mapping\Context\IPersistentPropertyPath.cs" />
+    <Compile Include="Data\Mapping\Context\MappingContextEvent.cs" />
+    <Compile Include="Data\Mapping\IAssociationHandler.cs" />
+    <Compile Include="Data\Mapping\IPersistentEntity.cs" />
+    <Compile Include="Data\Mapping\IPersistentProperty.cs" />
+    <Compile Include="Data\Mapping\IPropertyHandler.cs" />
+    <Compile Include="Data\Mapping\Model\AbstractPersistentProperty.cs" />
+    <Compile Include="Data\Mapping\Model\AnnotationBasedPersistentProperty.cs" />
+    <Compile Include="Data\Mapping\Model\BasicPersistentEntity.cs" />
+    <Compile Include="Data\Mapping\Model\IParameterNameDiscoverer.cs" />
+    <Compile Include="Data\Mapping\Model\LocalVariableTableParameterNameDiscoverer.cs" />
+    <Compile Include="Data\Mapping\Model\MappingException.cs" />
+    <Compile Include="Data\Mapping\Model\IMutablePersistentEntity.cs" />
+    <Compile Include="Data\Mapping\Model\PreferredConstructorDiscoverer.cs" />
+    <Compile Include="Data\Mapping\Model\SimpleTypeHolder.cs" />
+    <Compile Include="Data\Mapping\Parameter.cs" />
+    <Compile Include="Data\Mapping\PreferredConstructor.cs" />
+    <Compile Include="Data\Mapping\PropertyPath.cs" />
+    <Compile Include="Data\Mapping\PropertyReferenceException.cs" />
     <Compile Include="Data\Objects\AbstractAdoOperation.cs" />
     <Compile Include="Data\Objects\Generic\AdoOperation.cs" />
     <Compile Include="Data\Objects\Generic\AdoQuery.cs" />
@@ -235,6 +268,14 @@
     <Compile Include="Data\UncategorizedAdoException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Util\ClassTypeInformation.cs" />
+    <Compile Include="Data\Util\GenericArrayTypeInformation.cs" />
+    <Compile Include="Data\Util\ITypeInformation.cs" />
+    <Compile Include="Data\Util\ParameterizedTypeInformation.cs" />
+    <Compile Include="Data\Util\ParentTypeAwareTypeInformation.cs" />
+    <Compile Include="Data\Util\ReflectionUtils.cs" />
+    <Compile Include="Data\Util\TypeDiscoverer.cs" />
+    <Compile Include="Data\Util\TypeVariableTypeInformation.cs" />
     <Compile Include="Transaction\CannotCreateTransactionException.cs" />
     <Compile Include="Transaction\Config\AttributeDrivenObjectDefinitionParser.cs" />
     <Compile Include="Transaction\Config\TxNamespaceUtils.cs" />
@@ -276,12 +317,14 @@
     <Compile Include="Transaction\Support\AbstractPlatformTransactionManager.cs" />
     <Compile Include="Transaction\Support\DefaultTransactionDefinition.cs" />
     <Compile Include="Transaction\Support\DefaultTransactionStatus.cs" />
+    <Compile Include="Transaction\Support\IResourceHolder.cs" />
     <Compile Include="Transaction\Support\IResourceTransactionManager.cs" />
     <Compile Include="Transaction\Support\ISmartTransactionObject.cs" />
     <Compile Include="Transaction\Support\ITransactionCallback.cs" />
     <Compile Include="Transaction\Support\ITransactionOperations.cs" />
     <Compile Include="Transaction\Support\ITransactionSynchronization.cs" />
     <Compile Include="Transaction\Support\ResourceHolderSupport.cs" />
+    <Compile Include="Transaction\Support\ResourceHolderSynchronization.cs" />
     <Compile Include="Transaction\Support\TransactionCallbackWithoutResult.cs" />
     <Compile Include="Transaction\Support\TransactionDelegate.cs" />
     <Compile Include="Transaction\Support\TransactionSynchronizationAdapter.cs" />
@@ -331,6 +374,7 @@
       <DependentUpon>spring-database-1.3.xsd</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

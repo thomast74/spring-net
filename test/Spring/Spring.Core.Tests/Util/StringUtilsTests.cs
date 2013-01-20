@@ -442,6 +442,26 @@ namespace Spring.Util
 			Assert.AreEqual(inputString, StringUtils.ConvertEscapedCharacters(inputString));
 		}
 
+        [Test]
+        public void CapitalizeString()
+        {
+            string inputString = "isLower";
+            Assert.That(StringUtils.Capitalize(inputString), Is.EqualTo("IsLower"));
+
+            inputString = "IsUpper";
+            Assert.That(StringUtils.Capitalize(inputString), Is.EqualTo("IsUpper"));
+        }
+
+        [Test]
+        public void UncapitalizeString()
+        {
+            string inputString = "IsUpper";
+            Assert.That(StringUtils.Uncapitalize(inputString), Is.EqualTo("isUpper"));
+
+            inputString = "isLower";
+            Assert.That(StringUtils.Uncapitalize(inputString), Is.EqualTo("isLower"));
+        }
+
 		private sealed class Foo
 		{
 			public Foo(string bar)

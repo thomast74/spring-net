@@ -121,6 +121,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\Mapping\Context\" />
+    <Folder Include="Data\Mapping\Model\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
@@ -137,12 +139,24 @@
     <Compile Include="Data\LoggingAroundAdvice.cs" />
     <Compile Include="Data\ITestCoord.cs" />
     <Compile Include="Data\ITestObjectMgr.cs" />
+    <Compile Include="Data\Mapping\Child.cs" />
+    <Compile Include="Data\Mapping\MappingMetadataTests.cs" />
+    <Compile Include="Data\Mapping\ParameterTests.cs" />
+    <Compile Include="Data\Mapping\Person.cs" />
+    <Compile Include="Data\Mapping\PersonWithChildren.cs" />
+    <Compile Include="Data\Mapping\PersonWithId.cs" />
+    <Compile Include="Data\Mapping\PropertyPathTests.cs" />
     <Compile Include="Data\Objects\AdoQueryTests.cs" />
     <Compile Include="Data\TestCoord.cs" />
     <Compile Include="Data\TestObjectMgr.cs" />
+    <Compile Include="Data\Util\ClassTypeInformationTests.cs" />
+    <Compile Include="Data\Util\ParameterizedTypeTests.cs" />
+    <Compile Include="Data\Util\ReflectionUtilsTests.cs" />
+    <Compile Include="Data\Util\TypeDiscovererTests.cs" />
     <Compile Include="Support\ErrorCodeExceptionTranslatorTests.cs" />
     <Compile Include="Support\TestDbProvider.cs" />
     <Compile Include="Support\TestSqlException.cs" />
+    <Compile Include="TestCategory.cs" />
     <Compile Include="Transaction\CallCountingTransactionManager.cs" />
     <Compile Include="Transaction\CommonTypes.cs" />
     <Compile Include="Transaction\Config\TxNamespaceParserTests.cs" />

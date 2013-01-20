@@ -706,5 +706,46 @@ namespace Spring.Util
             }
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Capitalize a <code>String</code>, changing the first letter to
+        /// upper case as per <see cref="char.ToUpper(char)"/>.
+        /// No other letters are changed.
+        /// </summary>
+        /// <param name="str">the String to capitalize, may be <code>null</code></param>
+        /// <returns>
+        /// the capitalized String, <code>null</code> if null
+        /// </returns>
+        public static string Capitalize(string str)
+        {
+            return ChangeFirstCharacterCase(str, true);
+        }
+
+
+        /// <summary>
+        /// Uncapitalize a <code>String</code>, changing the first letter to
+        /// lower case as per <see cref="char.ToLower(char)"/>.
+        /// No other letters are changed.
+        /// </summary>
+        /// <param name="str">the String to uncapitalize, may be <code>null</code></param>
+        /// <returns>
+        /// the uncapitalized String, <code>null</code> if null
+        /// </returns>
+        public static string Uncapitalize(string str)
+        {
+            return ChangeFirstCharacterCase(str, false);
+        }
+
+        private static string ChangeFirstCharacterCase(string str, bool capitalize)
+        {
+            if (string.IsNullOrEmpty(str))
+                return str;
+
+            var sb = new StringBuilder(str.Length);
+            sb.Append(capitalize ? char.ToUpper(str[0]) : char.ToLower(str[0]));
+            sb.Append(str.Substring(1));
+
+            return sb.ToString();
+        }
     }
 }
