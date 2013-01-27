@@ -26,7 +26,7 @@ using NUnit.Framework;
 namespace Spring.Data.Util
 {
     /// <summary>
-    /// Unit tests for <see cref="TypeDiscoverer{T}"/>
+    /// Unit tests for <see cref="TypeDiscoverer"/>
     /// </summary>
     /// <author>Oliver Gierke</author>
     /// <author>Thomas Trageser</author>

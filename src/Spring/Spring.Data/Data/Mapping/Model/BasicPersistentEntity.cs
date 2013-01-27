@@ -60,7 +60,7 @@ namespace Spring.Data.Mapping.Model
         /// </summary>
         /// <param name="information">must not be <code>null</code></param>
         /// <param name="comparer"></param>
-	    public BasicPersistentEntity(ITypeInformation information, IComparer<IPersistentProperty> comparer)
+        public BasicPersistentEntity(ITypeInformation information, PersistentPropertyComparer<IPersistentProperty> comparer)
         {
 		    AssertUtils.ArgumentNotNull(information, "information");
 

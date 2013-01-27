@@ -28,9 +28,13 @@ namespace Spring.Data.Convert
     /// Combined <see cref="IEntityReader{T,TSource}"/> and <see cref="IEntityWriter{T,TSink}"/> and 
     /// add the ability to access a <see cref="IMappingContext"/> and {@link ConversionService}.
     /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TSourceOrSink"></typeparam>
     /// <author>Oliver Gierke</author>
     /// <author>Thomas Trageser</author>
-    public interface IEntityConverter<T, TSinkOrSource> : IEntityReader<T, TSinkOrSource>, IEntityWriter<T, TSinkOrSource>
+    public interface IEntityConverter<in T, in TSourceOrSink> : IEntityReader<T, TSourceOrSink>, IEntityWriter<T, TSourceOrSink>
+        where T : class
+        where TSourceOrSink : class
     {
         /// <summary>
         /// Returns the underlying <see cref="IMappingContext"/> used by the converter.

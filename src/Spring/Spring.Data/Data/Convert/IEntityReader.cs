@@ -28,18 +28,19 @@ namespace Spring.Data.Convert
     /// <summary>
     /// Interface to read object from store specific sources.
     /// </summary>
-    /// <typeparam name="T">the entity type the converter can handle</typeparam>
+    /// <typeparam name="TEntity">the entity type the converter can handle</typeparam>
     /// <typeparam name="TSource">source the source to create an object of the given type from</typeparam>
     /// <author>Oliver Gierke</author>
     /// <author>Thomas Trageser</author>
-    public interface IEntityReader<T, TSource>
+    public interface IEntityReader<in TEntity, in TSource> where TEntity : class
+                                                           where TSource : class
     {
         /// <summary>
         /// Reads the given source into the given type.
         /// </summary>
-        /// <typeparam name="TRead"></typeparam>
+        /// <typeparam name="TTargetType"></typeparam>
         /// <param name="source"></param>
         /// <returns></returns>
-        TRead Read<TRead>(TSource source) where TRead : T;
+        TTargetType Read<TTargetType>(TSource source) where TTargetType : TEntity;
     }
 }

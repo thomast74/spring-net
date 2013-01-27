@@ -18,18 +18,33 @@
 
 #endregion
 
-namespace Spring.Data.Convert
+namespace Spring.Data.Domain
 {
     /// <summary>
-    /// Interface to write objects into store specific sinks.
+    /// Abstract interface for pagination information.
     /// </summary>
-    /// <typeparam name="TEntity">the entity type the converter can handle</typeparam>
-    /// <typeparam name="TSink">the store specific sink the converter is able to write to</typeparam>
     /// <author>Oliver Gierke</author>
     /// <author>Thomas Trageser</author>
-    public interface IEntityWriter<in TEntity, in TSink> where TEntity : class
-                                                   where TSink : class
+    public interface IPageable
     {
-        void Write(TEntity source, TSink sink);
+        /// <summary>
+        /// Returns the page to be returned.
+        /// </summary>
+        int PageNumber { get; }
+
+        /// <summary>
+        /// Returns the number of items to be returned.
+        /// </summary>
+        int PageSize { get; }
+
+        /// <summary>
+        /// Returns the offset to be taken according to the underlying page and page size.
+        /// </summary>
+        int Offset { get; }
+
+        /// <summary>
+        /// Returns the sorting parameters.
+        /// </summary>
+        Sort Sort { get; }
     }
 }

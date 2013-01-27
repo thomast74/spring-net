@@ -1,14 +1,14 @@
 ﻿#region License
 
 /*
- * Copyright © 2002-2013 the original author or authors.
- * 
+ * Copyright © 2002-2011 the original author or authors.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,18 +18,18 @@
 
 #endregion
 
-namespace Spring.Data.Convert
+using System.Collections.Generic;
+
+namespace Spring.Data.Mapping.Model
 {
     /// <summary>
-    /// Interface to write objects into store specific sinks.
+    /// Base class for <see cref="IPersistentProperty"/> comparers.
     /// </summary>
-    /// <typeparam name="TEntity">the entity type the converter can handle</typeparam>
-    /// <typeparam name="TSink">the store specific sink the converter is able to write to</typeparam>
-    /// <author>Oliver Gierke</author>
-    /// <author>Thomas Trageser</author>
-    public interface IEntityWriter<in TEntity, in TSink> where TEntity : class
-                                                   where TSink : class
+    /// <typeparam name="TPersistentProperty"></typeparam>
+    public abstract class PersistentPropertyComparer<TPersistentProperty> : IComparer<TPersistentProperty> 
+        where TPersistentProperty : IPersistentProperty
     {
-        void Write(TEntity source, TSink sink);
+
+        public abstract int Compare(TPersistentProperty o1, TPersistentProperty o2);
     }
 }

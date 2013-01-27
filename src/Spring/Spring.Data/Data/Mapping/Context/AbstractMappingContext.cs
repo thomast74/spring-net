@@ -49,7 +49,7 @@ namespace Spring.Data.Mapping.Context
         /// <summary>
         /// Set the <see cref="IApplicationContext"/>
         /// </summary>
-        public IApplicationContext ApplicationContext
+        public virtual IApplicationContext ApplicationContext
         {
             set
             {
@@ -224,8 +224,8 @@ namespace Spring.Data.Mapping.Context
         /// <param name="owner"></param>
         /// <param name="simpleTypeHolder"></param>
         public abstract IPersistentProperty CreatePersistentProperty(FieldInfo fieldInfo,
-                                                                          IPersistentEntity owner,
-                                                                          SimpleTypeHolder simpleTypeHolder);
+                                                                     IPersistentEntity owner,
+                                                                     SimpleTypeHolder simpleTypeHolder);
 
         /// <summary>
         /// Event listener for <see cref="ContextRefreshedEventArgs"/> event. If received it initializes peristent entities.
@@ -260,7 +260,7 @@ namespace Spring.Data.Mapping.Context
         /// to be considered simple) but still need meta-information about them.
         /// </summary>
         /// <param name="type">will nenver be null</param>
-        protected bool ShouldCreatePersistentEntityFor(ITypeInformation type)
+        public virtual bool ShouldCreatePersistentEntityFor(ITypeInformation type)
         {
             return !_simpleTypeHolder.IsSimpleType(type.Type);
         }

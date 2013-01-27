@@ -175,6 +175,8 @@
     <Compile Include="Data\Core\RowMapperResultSetExtractor.cs" />
     <Compile Include="Data\Core\ServiceDomainPlatformTransactionManager.cs" />
     <Compile Include="Data\Core\TxScopeTransactionManager.cs" />
+    <Compile Include="Data\Domain\IPageable.cs" />
+    <Compile Include="Data\Domain\Sort.cs" />
     <Compile Include="Data\DuplicateKeyException.cs" />
     <Compile Include="Data\Generic\AdoDaoSupport.cs" />
     <Compile Include="Data\Generic\IDataAdapterCallback.cs" />
@@ -205,6 +207,7 @@
     <Compile Include="Data\Mapping\Model\LocalVariableTableParameterNameDiscoverer.cs" />
     <Compile Include="Data\Mapping\Model\MappingException.cs" />
     <Compile Include="Data\Mapping\Model\IMutablePersistentEntity.cs" />
+    <Compile Include="Data\Mapping\Model\PersistentPropertyComparer.cs" />
     <Compile Include="Data\Mapping\Model\PreferredConstructorDiscoverer.cs" />
     <Compile Include="Data\Mapping\Model\SimpleTypeHolder.cs" />
     <Compile Include="Data\Mapping\Parameter.cs" />
