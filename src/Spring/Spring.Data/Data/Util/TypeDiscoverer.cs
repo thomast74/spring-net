@@ -38,7 +38,7 @@ namespace Spring.Data.Util
         protected Type _type;
         protected IDictionary<Type, Type> _typeVariableDictionary;
 
-        private readonly IDictionary<string, ITypeInformation> _fieldTypes =
+        private readonly IDictionary<string, ITypeInformation> _propertyTypes =
             new ConcurrentDictionary<string, ITypeInformation>();
 
         /// <summary>
@@ -60,33 +60,33 @@ namespace Spring.Data.Util
         }
 
         /// <summary>
-        /// Creates {@link TypeInformation} for the given {@link Type}.
+        /// Creates <see cref="ITypeInformation"/> for the given <see cref="Type"/>.
         /// </summary>
         public ITypeInformation CreateInfo<TType>()
         {
-            Type fieldType = typeof(TType);
-            return CreateInfo(fieldType);
+            Type type = typeof(TType);
+            return CreateInfo(type);
         }
 
         /// <summary>
         /// Creates <see cref="ITypeInformation"/> for the given <see cref="Type"/>.
         /// </summary>
-        public virtual ITypeInformation CreateInfo(Type fieldType)
+        public virtual ITypeInformation CreateInfo(Type propertyType)
         {
-            if (fieldType == _type)
+            if (propertyType == _type)
                 return this;
 
-            if (fieldType.IsArray)
-                return new GenericArrayTypeInformation(fieldType, this);
+            if (propertyType.IsArray)
+                return new GenericArrayTypeInformation(propertyType, this);
 
-            if (fieldType.IsGenericType)
-                return new ParameterizedTypeInformation(fieldType, this);
+            if (propertyType.IsGenericType)
+                return new ParameterizedTypeInformation(propertyType, this);
 
-            if (fieldType.IsGenericParameter)
-                return new TypeVariableTypeInformation(fieldType, Type, this, null);
+            if (propertyType.IsGenericParameter)
+                return new TypeVariableTypeInformation(propertyType, Type, this, null);
 
-            if (fieldType.IsClass || fieldType.IsInterface || fieldType.IsValueType)
-                return ClassTypeInformation.From(fieldType);
+            if (propertyType.IsClass || propertyType.IsInterface || propertyType.IsValueType)
+                return ClassTypeInformation.From(propertyType);
 
             throw new ArgumentException();
         }
@@ -126,44 +126,44 @@ namespace Spring.Data.Util
             return result;
         }
 
-        public ITypeInformation GetProperty(string fieldname)
+        public ITypeInformation GetProperty(string propertyName)
         {
-            int separatorIndex = fieldname.IndexOf('.');
+            int separatorIndex = propertyName.IndexOf('.');
 
             if (separatorIndex == -1)
             {
-                if (_fieldTypes.ContainsKey(fieldname))
+                if (_propertyTypes.ContainsKey(propertyName))
                 {
-                    return _fieldTypes[fieldname];
+                    return _propertyTypes[propertyName];
                 }
 
-                var propertyInformation = GetPropertyInformation(fieldname);
+                var propertyInformation = GetPropertyInformation(propertyName);
                 if (propertyInformation != null)
                 {
-                    _fieldTypes.Add(fieldname, propertyInformation);
+                    _propertyTypes.Add(propertyName, propertyInformation);
                 }
                 return propertyInformation;
             }
 
-            string head = fieldname.Substring(0, separatorIndex);
-            ITypeInformation info = _fieldTypes.ContainsKey(head) ? _fieldTypes[head] : null;
-            return info == null ? null : info.GetProperty(fieldname.Substring(separatorIndex + 1));
+            string head = propertyName.Substring(0, separatorIndex);
+            ITypeInformation info = _propertyTypes.ContainsKey(head) ? _propertyTypes[head] : null;
+            return info == null ? null : info.GetProperty(propertyName.Substring(separatorIndex + 1));
         }
 
         /// <summary>
-        /// Returns the <see cref="ITypeInformation"/> for the given atomic field. Will inspect fields first
-        /// and return the type of a field if available. Otherwise it will fall back to a {@link PropertyDescriptor}.
+        /// Returns the <see cref="ITypeInformation"/> for the given atomic property. Will inspect properties first
+        /// and return the type of a property if available. Otherwise it will fall back to a {@link PropertyDescriptor}.
         /// </summary>
-        private ITypeInformation GetPropertyInformation(string fieldname)
+        private ITypeInformation GetPropertyInformation(string propertyName)
         {
             Type type = Type;
-            FieldInfo field;
+            PropertyInfo propertyInfo;
             do
             {
-                field = type.GetField(fieldname, BindingFlags.Instance | BindingFlags.NonPublic);
-                if (field != null)
+                propertyInfo = type.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+                if (propertyInfo != null)
                 {
-                    return CreateInfo(field.FieldType);
+                    return CreateInfo(propertyInfo.PropertyType);
                 }
                 type = type.BaseType;
             } while (type != typeof (object));

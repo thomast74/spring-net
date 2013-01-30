@@ -35,83 +35,83 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void ParsesSimplePropertyCorrectly() 
         {
-		    PropertyPath reference = PropertyPath.From<Foo>("userName");
+		    PropertyPath reference = PropertyPath.From<Foo>("UserName");
 
 		    Assert.That(reference.HasNext, Is.False);
-		    Assert.That(reference.DotPath, Is.EqualTo("userName"));
+		    Assert.That(reference.DotPath, Is.EqualTo("UserName"));
 		    Assert.That(reference.OwningType, Is.EqualTo(ClassTypeInformation.From<Foo>()));
 	    }
 
         [Test]
 	    public void ParsesPathPropertyCorrectly()
         {
-		    PropertyPath reference = PropertyPath.From<Bar>("userName");
+		    PropertyPath reference = PropertyPath.From<Bar>("UserName");
 
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
-		    Assert.That(reference.DotPath, Is.EqualTo("user.name"));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
+		    Assert.That(reference.DotPath, Is.EqualTo("User.Name"));
 	    }
 
         [Test]
 	    public void PrefersLongerMatches()
         {
-		    PropertyPath reference = PropertyPath.From<Sample>("userName");
+		    PropertyPath reference = PropertyPath.From<Sample>("UserName");
 
 		    Assert.That(reference.HasNext, Is.False);
-		    Assert.That(reference.DotPath, Is.EqualTo("userName"));
+		    Assert.That(reference.DotPath, Is.EqualTo("UserName"));
 	    }
 
         [Test]
 	    public void TestName() 
         {
-		    PropertyPath reference = PropertyPath.From<Sample2>("userName");
+		    PropertyPath reference = PropertyPath.From<Sample2>("UserName");
 
-		    Assert.That(reference.Segment, Is.EqualTo("user"));
+		    Assert.That(reference.Segment, Is.EqualTo("User"));
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
 	    }
 
         [Test]
 	    public void PrefersExplicitPaths()
         {
-		    PropertyPath reference = PropertyPath.From<Sample>("user_name");
+		    PropertyPath reference = PropertyPath.From<Sample>("User_Name");
 
-		    Assert.That(reference.Segment, Is.EqualTo("user"));
+		    Assert.That(reference.Segment, Is.EqualTo("User"));
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
 	    }
 
         [Test]
 	    public void HandlesGenericsCorrectly()
         {
-		    PropertyPath reference = PropertyPath.From<Bar>("usersName");
+		    PropertyPath reference = PropertyPath.From<Bar>("UsersName");
 
-		    Assert.That(reference.Segment, Is.EqualTo("users"));
+		    Assert.That(reference.Segment, Is.EqualTo("Users"));
 		    Assert.That(reference.IsCollection, Is.True);
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
 	    }
 
         [Test]
 	    public void HandlesDictionaryCorrectly() 
         {
-		    PropertyPath reference = PropertyPath.From<Bar>("userDictionaryName");
+		    PropertyPath reference = PropertyPath.From<Bar>("UserDictionaryName");
 
-		    Assert.That(reference.Segment, Is.EqualTo("userDictionary"));
+		    Assert.That(reference.Segment, Is.EqualTo("UserDictionary"));
 		    Assert.That(reference.IsCollection, Is.False);
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
 	    }
 
         [Test]
 	    public void HandlesArrayCorrectly()
         {
-		    PropertyPath reference = PropertyPath.From<Bar>("userArrayName");
+		    PropertyPath reference = PropertyPath.From<Bar>("UserArrayName");
 
-		    Assert.That(reference.Segment, Is.EqualTo("userArray"));
+		    Assert.That(reference.Segment, Is.EqualTo("UserArray"));
 		    Assert.That(reference.IsCollection, Is.True);
 		    Assert.That(reference.HasNext, Is.True);
-		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("name", typeof(FooBar))));
+		    Assert.That(reference.Next, Is.EqualTo(new PropertyPath("Name", typeof(FooBar))));
 	    }
 
         [Test]
@@ -119,13 +119,13 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Bar>("usersMame");
+			    PropertyPath.From<Bar>("UsersMame");
 			    Assert.Fail("Expected PropertyReferenceException!");
 		    }
             catch (PropertyReferenceException e) 
             {
-			    Assert.That(e.PropertyName, Is.EqualTo("mame"));
-			    Assert.That(e.BaseProperty, Is.EqualTo(PropertyPath.From<Bar>("users")));
+			    Assert.That(e.PropertyName, Is.EqualTo("Mame"));
+			    Assert.That(e.BaseProperty, Is.EqualTo(PropertyPath.From<Bar>("Users")));
 		    }
 	    }
 
@@ -134,23 +134,23 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Bar>("userDictionaryMame");
+			    PropertyPath.From<Bar>("UserDictionaryMame");
 			    Assert.Fail("Expected PropertyReferenceException!");
 		    }
             catch (PropertyReferenceException e) 
             {
-			    Assert.That(e.PropertyName, Is.EqualTo("mame"));
-			    Assert.That(e.BaseProperty, Is.EqualTo(PropertyPath.From<Bar>("userDictionary")));
+			    Assert.That(e.PropertyName, Is.EqualTo("Mame"));
+			    Assert.That(e.BaseProperty, Is.EqualTo(PropertyPath.From<Bar>("UserDictionary")));
 		    }
 	    }
 
         [Test]
 	    public void FindsNested()
         {
-		    PropertyPath from = PropertyPath.From<Sample>("bar.user.name");
+		    PropertyPath from = PropertyPath.From<Sample>("Bar.User.Name");
 
 		    Assert.That(from, Is.Not.Null);
-		    Assert.That(from.LeafProperty, Is.EqualTo(PropertyPath.From<FooBar>("name")));
+		    Assert.That(from.LeafProperty, Is.EqualTo(PropertyPath.From<FooBar>("Name")));
 	    }
 
 	    /**
@@ -159,30 +159,30 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void HandlesEmptyUnderscoresCorrectly()
         {
-		    PropertyPath propertyPath = PropertyPath.From<Sample2>("_foo");
+		    PropertyPath propertyPath = PropertyPath.From<Sample2>("Foo");
 
-		    Assert.That(propertyPath.Segment, Is.EqualTo("_foo"));
+		    Assert.That(propertyPath.Segment, Is.EqualTo("Foo"));
 		    Assert.That(propertyPath.Type, Is.EqualTo(typeof(Foo)));
 
-		    propertyPath = PropertyPath.From<Sample2>("_foo__email");
+		    propertyPath = PropertyPath.From<Sample2>("Foo_Email");
 
-		    Assert.That(propertyPath.DotPath, Is.EqualTo("_foo._email"));
+		    Assert.That(propertyPath.DotPath, Is.EqualTo("Foo.Email"));
 	    }
 
         [Test]
 	    public void SupportsDotNotationAsWell()
         {
-		    PropertyPath propertyPath = PropertyPath.From<Sample>("bar.userDictionary.name");
+		    PropertyPath propertyPath = PropertyPath.From<Sample>("Bar.UserDictionary.Name");
 
 		    Assert.That(propertyPath, Is.Not.Null);
-		    Assert.That(propertyPath.Segment, Is.EqualTo("bar"));
-		    Assert.That(propertyPath.LeafProperty, Is.EqualTo(PropertyPath.From<FooBar>("name")));
+		    Assert.That(propertyPath.Segment, Is.EqualTo("Bar"));
+		    Assert.That(propertyPath.LeafProperty, Is.EqualTo(PropertyPath.From<FooBar>("Name")));
 	    }
 
         [Test]
 	    public void ReturnsCorrectIteratorForSingleElement()
         {
-		    PropertyPath propertyPath = PropertyPath.From<Foo>("userName");
+		    PropertyPath propertyPath = PropertyPath.From<Foo>("UserName");
 		    var enumerator = propertyPath.GetEnumerator();
 
 		    Assert.That(enumerator.MoveNext(), Is.True);
@@ -193,7 +193,7 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void ReturnsCorrectIteratorForMultipleElement()
         {
-		    PropertyPath propertyPath = PropertyPath.From<Bar>("user.name");
+		    PropertyPath propertyPath = PropertyPath.From<Bar>("User.Name");
 		    var enumerator = propertyPath.GetEnumerator();
 
 		    Assert.That(enumerator.MoveNext(), Is.True);
@@ -212,12 +212,12 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Foo>("_id");
+			    PropertyPath.From<Foo>("Id");
                 Assert.Fail("Expected PropertyReferenceException");
 		    }
             catch (PropertyReferenceException e) 
             {
-			    Assert.That(e.Message, Contains.Substring("property _id"));
+			    Assert.That(e.Message, Contains.Substring("property Id"));
 		    }
 	    }
 
@@ -229,12 +229,12 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Sample2>("_foo_id");
+			    PropertyPath.From<Sample2>("Foo_Id");
                 Assert.Fail("Expected PropertyReferenceException");
             }
             catch (PropertyReferenceException e) 
             {
-			    Assert.That(e.Message, Contains.Substring("property id"));
+			    Assert.That(e.Message, Contains.Substring("property Id"));
 		    }
 	    }
 
@@ -246,12 +246,12 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Sample2>("_foo__id");
+			    PropertyPath.From<Sample2>("Foo_Id");
                 Assert.Fail("Expected PropertyReferenceException");
             }
             catch (PropertyReferenceException e) 
             {
-			    Assert.That(e.Message, Contains.Substring("property _id"));
+			    Assert.That(e.Message, Contains.Substring("property Id"));
 		    }
 	    }
 
@@ -270,7 +270,7 @@ namespace Spring.Data.Mapping
         {
 		    try 
             {
-			    PropertyPath.From<Foo>("bar");
+			    PropertyPath.From<Foo>("Bar");
                 Assert.Fail("Expected PropertyReferenceException");
 		    }
             catch (PropertyReferenceException e) 
@@ -282,9 +282,9 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void SamePathsEqual() 
         {
-		    PropertyPath left = PropertyPath.From<Bar>("user.name");
-		    PropertyPath right = PropertyPath.From<Bar>("user.name");
-		    PropertyPath shortPath = PropertyPath.From<Bar>("user");
+		    PropertyPath left = PropertyPath.From<Bar>("User.Name");
+		    PropertyPath right = PropertyPath.From<Bar>("User.Name");
+		    PropertyPath shortPath = PropertyPath.From<Bar>("User");
 
 		    Assert.That(left, Is.EqualTo(right));
 		    Assert.That(right, Is.EqualTo(left));
@@ -296,9 +296,9 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void HashCodeTests() 
         {
-		    PropertyPath left = PropertyPath.From<Bar>("user.name");
-		    PropertyPath right = PropertyPath.From<Bar>("user.name");
-		    PropertyPath shortPath = PropertyPath.From<Bar>("user");
+		    PropertyPath left = PropertyPath.From<Bar>("User.Name");
+		    PropertyPath right = PropertyPath.From<Bar>("User.Name");
+		    PropertyPath shortPath = PropertyPath.From<Bar>("User");
 
 		    Assert.That(left.GetHashCode(), Is.EqualTo(right.GetHashCode()));
 		    Assert.That(left.GetHashCode(), Is.Not.EqualTo(shortPath.GetHashCode()));
@@ -322,10 +322,10 @@ namespace Spring.Data.Mapping
         [Test]
 	    public void FindsNestedAllUppercaseProperty()
         {
-		    PropertyPath path = PropertyPath.From<Sample2>("_foo.UUID");
+		    PropertyPath path = PropertyPath.From<Sample2>("Foo.UUID");
 
 		    Assert.That(path, Is.Not.Null);
-		    Assert.That(path.Segment, Is.EqualTo("_foo"));
+		    Assert.That(path.Segment, Is.EqualTo("Foo"));
 		    Assert.That(path.HasNext, Is.True);
 		    Assert.That(path.Next.Segment, Is.EqualTo("UUID"));
 	    }
@@ -336,36 +336,36 @@ namespace Spring.Data.Mapping
 
 	    private class Foo
         {
-		    string userName;
-		    string _email;
-		    string UUID;
+            public string UserName { get; set; }
+            public string Email { get; set; }
+            public string UUID { get; set; }
 	    }
 
 	    private class Bar
         {
-		    private FooBar user;
-		    private Set<FooBar> users;
-		    private Dictionary<string, FooBar> userDictionary;
-		    private FooBar[] userArray;
+            public FooBar User { get; set; }
+            public Set<FooBar> Users { get; set; }
+            public Dictionary<string, FooBar> UserDictionary { get; set; }
+            public FooBar[] UserArray { get; set; }
 	    }
 
 	    private class FooBar 
         {
-		    private string name;
+            public string Name { get; set; }
 	    }
 
 	    private class Sample
         {
-		    private string userName;
-		    private FooBar user;
-		    private Bar bar;
+            public string UserName { get; set; }
+            public FooBar User { get; set; }
+            public Bar Bar { get; set; }
 	    }
 
 	    private class Sample2 
         {
-		    private string userNameWhatever;
-		    private FooBar user;
-		    private Foo _foo;
+            public string UserNameWhatever { get; set; }
+            public FooBar User { get; set; }
+            public Foo Foo { get; set; }
 	    }
 
     }

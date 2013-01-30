@@ -36,15 +36,15 @@ namespace Spring.Data.Mapping.Model
         /// <summary>
         /// Creates a new <see cref="AnnotationBasedPersistentProperty"/>.
         /// </summary>
-        /// <param name="fieldInfo"></param>
+        /// <param name="propertyInfo"></param>
         /// <param name="owner"></param>
         /// <param name="simpleTypeHolder"></param>
-        public AnnotationBasedPersistentProperty(FieldInfo fieldInfo, IPersistentEntity owner,
+        public AnnotationBasedPersistentProperty(PropertyInfo propertyInfo, IPersistentEntity owner,
                                                  SimpleTypeHolder simpleTypeHolder)
-            : base(fieldInfo, owner, simpleTypeHolder)
+            : base(propertyInfo, owner, simpleTypeHolder)
         {
-            _value = Attribute.GetCustomAttribute(_fieldInfo, typeof (ValueAttribute)) as ValueAttribute;
-            _autowired = Attribute.GetCustomAttribute(_fieldInfo, typeof (AutowiredAttribute)) as AutowiredAttribute;
+            _value = Attribute.GetCustomAttribute(_propertyInfo, typeof (ValueAttribute)) as ValueAttribute;
+            _autowired = Attribute.GetCustomAttribute(_propertyInfo, typeof(AutowiredAttribute)) as AutowiredAttribute;
         }
 
         /// <summary>
@@ -57,14 +57,14 @@ namespace Spring.Data.Mapping.Model
         }
 
         /// <summary>
-        /// Considers plain transient fields, fields annotated with <see cref="TransientAttribute"/>,
+        /// Considers plain transient properties annotated with <see cref="TransientAttribute"/>,
         /// <see cref="ValueAttribute"/> or <see cref="AutowiredAttribute"/> as transient.
         /// </summary>
         public override bool IsTransient
         {
             get
             {
-                var transient = Attribute.GetCustomAttribute(_fieldInfo, typeof(TransientAttribute));
+                var transient = Attribute.GetCustomAttribute(_propertyInfo, typeof(TransientAttribute));
 
                 bool isTransient = base.IsTransient || transient != null;
                 return isTransient || _value != null || _autowired != null;
@@ -73,12 +73,12 @@ namespace Spring.Data.Mapping.Model
 
         public override bool IsIdProperty
         {
-            get { return Attribute.GetCustomAttribute(_fieldInfo, typeof (IdAttribute)) != null; }
+            get { return Attribute.GetCustomAttribute(_propertyInfo, typeof(IdAttribute)) != null; }
         }
 
         public override bool IsVersionProperty
         {
-            get { return Attribute.GetCustomAttribute(_fieldInfo, typeof (VersionAttribute)) != null; }
+            get { return Attribute.GetCustomAttribute(_propertyInfo, typeof(VersionAttribute)) != null; }
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Spring.Data.Mapping.Model
                 {
                     return false;
                 }
-                if (Attribute.GetCustomAttribute(_fieldInfo, typeof(ReferenceAttribute)) != null)
+                if (Attribute.GetCustomAttribute(_propertyInfo, typeof(ReferenceAttribute)) != null)
                 {
                     return true;
                 }

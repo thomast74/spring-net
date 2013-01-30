@@ -30,19 +30,12 @@ namespace Spring.Data.Mapping
     /// <author>Thomas Trageser</author>
     public class PersonWithId : Person
     {
-        [Id]
-	    private string _id;
-
-
 	    public PersonWithId(int ssn, string firstName, string lastName)
             : base(ssn, firstName, lastName)
         {
 	    }
 
-        public String Id
-        {
-            get { return _id; }
-        }
-
+        [Id]
+        public string Id { get; set; }
     }
 }

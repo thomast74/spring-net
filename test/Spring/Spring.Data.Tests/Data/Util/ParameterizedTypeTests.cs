@@ -67,31 +67,31 @@ namespace Spring.Data.Util
 	    public void ResolvesDictonaryValueTypeCorrectly()
 	    {
 	        ITypeInformation type = ClassTypeInformation.From<Foo>();
-		    ITypeInformation propertyType = type.GetProperty("param");
+		    ITypeInformation propertyType = type.GetProperty("Param");
 
-		    Assert.That(propertyType.GetProperty("value").Type, Is.EqualTo(typeof(string)));
+		    Assert.That(propertyType.GetProperty("Value").Type, Is.EqualTo(typeof(string)));
             Assert.That(propertyType.DictionaryValueType.Type, Is.EqualTo(typeof(string)));
 
-		    propertyType = type.GetProperty("param2");
+		    propertyType = type.GetProperty("Param2");
 
-		    Assert.That(propertyType.GetProperty("value").Type, Is.EqualTo(typeof(string)));
+		    Assert.That(propertyType.GetProperty("Value").Type, Is.EqualTo(typeof(string)));
             Assert.That(propertyType.DictionaryValueType.Type, Is.EqualTo(typeof(DateTime)));
 	    }
 
 	    class Localized<T> : Dictionary<DateTime, T>
         {
-		    T value;
+            public T Value { get; set; }
 	    }
 
 	    class Localized2<T> : Dictionary<T, DateTime>
         {
-		    T value;
+            public T Value { get; set; }
 	    }
 
 	    class Foo 
         {
-		    Localized<string> param;
-		    Localized2<string> param2;
+            public Localized<string> Param { get; set; }
+            public Localized2<string> Param2 { get; set; }
 	    }
 
     }

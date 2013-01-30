@@ -70,8 +70,8 @@ namespace Spring.Data.Util
 	    public void DealsWithTypesReferencingThemselves()
         {
             var information = new ClassTypeInformation(typeof(SelfReferencing));
-		    var first = information.GetProperty("parent").DictionaryValueType;
-            var second = first.GetProperty("dictionary").DictionaryValueType;
+		    var first = information.GetProperty("Parent").DictionaryValueType;
+            var second = first.GetProperty("Dictionary").DictionaryValueType;
 
             Assert.That(first, Is.EqualTo(second));
 	    }
@@ -80,7 +80,7 @@ namespace Spring.Data.Util
 	    public void DealsWithTypesReferencingThemselvesInAMap()
         {
             var information = new ClassTypeInformation(typeof(SelfReferencingDictionary));
-            var dictionaryValueType = information.GetProperty("dictionary").DictionaryValueType;
+            var dictionaryValueType = information.GetProperty("Dictionary").DictionaryValueType;
 
             Assert.That(dictionaryValueType, Is.EqualTo(information));
 	    }
@@ -139,12 +139,12 @@ namespace Spring.Data.Util
         {
             var discoverer = new TypeDiscoverer(typeof(Person));
 		    ITypeInformation reference = ClassTypeInformation.From<Address>();
-		    ITypeInformation addresses = discoverer.GetProperty("addresses");
+		    ITypeInformation addresses = discoverer.GetProperty("Addresses");
 
             Assert.That(addresses.IsCollectionLike, Is.False);
             Assert.That(addresses.ComponentType, Is.EqualTo(reference));
 
-		    ITypeInformation addressEnumerable = discoverer.GetProperty("addressEnumerable");
+		    ITypeInformation addressEnumerable = discoverer.GetProperty("AddressEnumerable");
 
             Assert.That(addressEnumerable.IsCollectionLike, Is.True);
             Assert.That(addressEnumerable.ComponentType, Is.EqualTo(reference));
@@ -154,8 +154,8 @@ namespace Spring.Data.Util
 
 	    class Person
         {
-		    Addresses addresses;
-		    IList<Address> addressEnumerable;
+            public Addresses Addresses { get; set; }
+            public IList<Address> AddressEnumerable { get; set; }
 	    }
 
 	    class Addresses : IEnumerable<Address>
@@ -177,12 +177,12 @@ namespace Spring.Data.Util
 
 	    class SelfReferencing 
         {
-		    IDictionary<string, SelfReferencingDictionary> parent;
+            public IDictionary<string, SelfReferencingDictionary> Parent { get; set; }
 	    }
 
 	    class SelfReferencingDictionary
         {
-		    IDictionary<string, SelfReferencingDictionary> dictionary;
+            public IDictionary<string, SelfReferencingDictionary> Dictionary { get; set; }
 	    }
 
 	    interface ICustomDictionary : IDictionary<string, int>

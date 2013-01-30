@@ -77,7 +77,7 @@ namespace Spring.Data.Mapping
 	    public PropertyReferenceException(String propertyName, ITypeInformation type, PropertyPath baseProperty)
         {
 		    AssertUtils.ArgumentHasText(propertyName, "propertyName must not be null and empty");
-		    AssertUtils.ArgumentNotNull(type, "type must not be null");
+		    AssertUtils.ArgumentNotNull(type, "type");
 
 		    _propertyName = propertyName;
 		    _type = type;

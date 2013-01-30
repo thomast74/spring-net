@@ -65,11 +65,11 @@ namespace Spring.Data.Mapping
         IEnumerable<ITypeInformation> PersistentEntityTypes { get; }
 
         /// <summary>
-        /// Returns the associated field info if available.
+        /// Returns the associated property info if available.
         /// Might return <code>null</code> in case there is no property info assignable.
         /// </summary>
-        /// <returns>the field info to access the property value if available, otherwise <code>null</code>.</returns>
-        FieldInfo FieldInfo { get; }
+        /// <returns>the property info to access the property value if available, otherwise <code>null</code>.</returns>
+        PropertyInfo PropertyInfo { get; }
 
         /// <summary>
         /// Returns the Spring Expression Language value from the <see cref="ValueAttribute"/>

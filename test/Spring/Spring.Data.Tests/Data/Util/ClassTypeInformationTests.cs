@@ -40,7 +40,7 @@ namespace Spring.Data.Util
 
             Assert.That(discoverer.Type, Is.EqualTo(typeof(ConcreteType)));
 		    
-            ITypeInformation content = discoverer.GetProperty("content");
+            ITypeInformation content = discoverer.GetProperty("Content");
 		    
             Assert.That(content.Type, Is.EqualTo(typeof(string)));
             Assert.That(content.ComponentType, Is.Null);
@@ -54,15 +54,15 @@ namespace Spring.Data.Util
 
             Assert.That(discoverer.Type, Is.EqualTo(typeof(ConcreteWrapper)));
 
-		    ITypeInformation wrapper = discoverer.GetProperty("wrapped");
+		    ITypeInformation wrapper = discoverer.GetProperty("Wrapped");
 
             Assert.That(wrapper.Type, Is.EqualTo(typeof(GenericType<string,object>)));
 
-		    ITypeInformation content = wrapper.GetProperty("content");
+		    ITypeInformation content = wrapper.GetProperty("Content");
 
             Assert.That(content.Type, Is.EqualTo(typeof(string)));
-            Assert.That(discoverer.GetProperty("wrapped").GetProperty("content").Type, Is.EqualTo(typeof(string)));
-            Assert.That(discoverer.GetProperty("wrapped.content").Type, Is.EqualTo(typeof(string)));
+            Assert.That(discoverer.GetProperty("Wrapped").GetProperty("Content").Type, Is.EqualTo(typeof(string)));
+            Assert.That(discoverer.GetProperty("Wrapped.Content").Type, Is.EqualTo(typeof(string)));
 	    }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Spring.Data.Util
         {
 		    ITypeInformation information = ClassTypeInformation.From<GenericTypeWithBound<Person>>();
 
-            Assert.That(information.GetProperty("person").Type, Is.EqualTo(typeof(Person)));
+            Assert.That(information.GetProperty("Person").Type, Is.EqualTo(typeof(Person)));
 	    }
 
         [Test]
@@ -78,7 +78,7 @@ namespace Spring.Data.Util
         {
 		    ITypeInformation information = ClassTypeInformation.From<SpecialGenericTypeWithBound>();
 
-            Assert.That(information.GetProperty("person").Type, Is.EqualTo(typeof(SpecialPerson)));
+            Assert.That(information.GetProperty("Person").Type, Is.EqualTo(typeof(SpecialPerson)));
 	    }
 
         [Test]
@@ -87,15 +87,15 @@ namespace Spring.Data.Util
             ITypeInformation information =
                 ClassTypeInformation.From<AnotherGenericType<Person, GenericTypeWithBound<Person>>>();
 
-            Assert.That(information.GetProperty("nested").Type, Is.EqualTo(typeof(GenericTypeWithBound<Person>)));
-            Assert.That(information.GetProperty("nested.person").Type, Is.EqualTo(typeof(Person)));
+            Assert.That(information.GetProperty("Nested").Type, Is.EqualTo(typeof(GenericTypeWithBound<Person>)));
+            Assert.That(information.GetProperty("Nested.Person").Type, Is.EqualTo(typeof(Person)));
 	    }
 
         [Test]
 	    public void DiscoversArraysAndCollections()
         {
 		    ITypeInformation information = ClassTypeInformation.From<StringCollectionContainer>();
-		    ITypeInformation property = information.GetProperty("array");
+		    ITypeInformation property = information.GetProperty("Array");
 
             Assert.That(property.ComponentType.Type, Is.EqualTo(typeof(string)));
 
@@ -103,7 +103,7 @@ namespace Spring.Data.Util
             Assert.That(type, Is.EqualTo(typeof(string[])));
             Assert.That(type.IsArray, Is.True);
 
-		    property = information.GetProperty("foo");
+		    property = information.GetProperty("Foo");
             Assert.That(property.Type, Is.EqualTo(typeof(ICollection<string>[])));
             Assert.That(property.ComponentType.Type, Is.EqualTo(typeof(ICollection<string>)));
             Assert.That(property.ComponentType.ComponentType.Type, Is.EqualTo(typeof(string)));
@@ -113,12 +113,12 @@ namespace Spring.Data.Util
 	    public void DiscoversMapValueType()
         {
 		    ITypeInformation information = ClassTypeInformation.From<StringDictionaryContainer>();
-		    ITypeInformation genericDictionary = information.GetProperty("genericDictionary");
+		    ITypeInformation genericDictionary = information.GetProperty("GenericDictionary");
 
             Assert.That(genericDictionary.Type, Is.EqualTo(typeof(Dictionary<string,string>)));
             Assert.That(genericDictionary.DictionaryValueType.Type, Is.EqualTo(typeof(string)));
 
-		    ITypeInformation map = information.GetProperty("dictionary");
+		    ITypeInformation map = information.GetProperty("Dictionary");
 
             Assert.That(map.Type, Is.EqualTo(typeof(Dictionary<string, DateTime>)));
             Assert.That(map.DictionaryValueType.Type, Is.EqualTo(typeof(DateTime)));
@@ -130,41 +130,27 @@ namespace Spring.Data.Util
 		    ITypeInformation first = ClassTypeInformation.From<ConcreteWrapper>();
 		    ITypeInformation second = ClassTypeInformation.From<AnotherConcreteWrapper>();
 
-            Assert.That(first.GetProperty("wrapped"), Is.Not.EqualTo(second.GetProperty("wrapped")));
-	    }
-
-        [Test]
-	    public void HandlesPropertyFieldMismatchCorrectly()
-        {
-		    ITypeInformation from = ClassTypeInformation.From<PropertyGetter>();
-
-		    ITypeInformation property = from.GetProperty("_name");
-
-            Assert.That(property, Is.Not.Null);
-            Assert.That(property.Type, Is.EqualTo(typeof(string)));
-
-		    property = from.GetProperty("Name");
-            Assert.That(property, Is.Null);
+            Assert.That(first.GetProperty("Wrapped"), Is.Not.EqualTo(second.GetProperty("Wrapped")));
 	    }
 
         [Test]
 	    public void ReturnsSameInstanceForCachedClass()
         {
-		    ITypeInformation info = ClassTypeInformation.From<PropertyGetter>();
+            ITypeInformation info = ClassTypeInformation.From<ClassWithWildCardBound>();
 
-            Assert.That(ClassTypeInformation.From<PropertyGetter>(), Is.SameAs(info));
+            Assert.That(ClassTypeInformation.From<ClassWithWildCardBound>(), Is.SameAs(info));
 	    }
 
         [Test]
 	    public void ResolvesWildCardTypeCorrectly()
         {
 		    ITypeInformation information = ClassTypeInformation.From<ClassWithWildCardBound>();
-		    ITypeInformation property = information.GetProperty("wildcard");
+		    ITypeInformation property = information.GetProperty("Wildcard");
 
             Assert.That(property.IsCollectionLike, Is.True);
             Assert.That(property.ComponentType.Type, Is.EqualTo(typeof(string)));
 
-		    property = information.GetProperty("complexWildcard");
+		    property = information.GetProperty("ComplexWildcard");
 
 		    Assert.That(property.IsCollectionLike, Is.True);
 
@@ -261,8 +247,8 @@ namespace Spring.Data.Util
 
 	    class DictionaryContainer<T>
         {
-		    Dictionary<string, T> genericDictionary;
-		    Dictionary<string, DateTime> dictionary;
+            public Dictionary<string, T> GenericDictionary { get; set; }
+            public Dictionary<string, DateTime> Dictionary { get; set; }
 	    }
 
 	    class StringCollectionContainer : CollectionContainer<string>
@@ -271,20 +257,20 @@ namespace Spring.Data.Util
 
 	    class CollectionContainer<T>    
         {
-		    protected T[] array;
-            protected ICollection<T>[] foo;
-            protected ISet<string> set;
+            public T[] Array { get; set; }
+            public  ICollection<T>[] Foo { get; set; }
+            public ISet<string> Set { get; set; }
 	    }
 
 	    class GenericTypeWithBound<T> where T : Person
         {
-		    T person;
+            public T Person { get; set; }
 	    }
 
 	    class AnotherGenericType<T, TS> where T : Person
                                         where TS : GenericTypeWithBound<T>
         {
-		    TS nested;
+            public TS Nested { get; set; }
 	    }
 
 	    class SpecialGenericTypeWithBound : GenericTypeWithBound<SpecialPerson>
@@ -302,8 +288,8 @@ namespace Spring.Data.Util
 
 	    class GenericType<T, TS>
         {
-		    long index;
-		    T content;
+            public long Index { get; set; }
+            public T Content { get; set; }
 	    }
 
 	    class ConcreteType : GenericType<string, object>
@@ -312,7 +298,7 @@ namespace Spring.Data.Util
 
 	    class GenericWrapper<TS> 
         {
-		    GenericType<TS, object> wrapped;
+            public GenericType<TS, object> Wrapped { get; set; }
 	    }
 
 	    class ConcreteWrapper : GenericWrapper<string>
@@ -323,20 +309,10 @@ namespace Spring.Data.Util
         {
 	    }
 
-	    class PropertyGetter 
-        {
-		    private string _name;
-
-		    public char[] Name
-            {
-		        get { return _name.ToCharArray(); }
-            }
-	    }
-
 	    class ClassWithWildCardBound 
         {
-            IList<string> wildcard;
-		    IList<IEnumerable<string>> complexWildcard;
+            public IList<string> Wildcard { get; set; }
+            public IList<IEnumerable<string>> ComplexWildcard { get; set; }
 	    }
 
 	    class Base<T>

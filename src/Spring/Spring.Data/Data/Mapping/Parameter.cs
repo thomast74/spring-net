@@ -31,7 +31,7 @@ namespace Spring.Data.Mapping
         /// <param name="entity">can be <code>null</code>.</param>
         public Parameter(string name, ITypeInformation type, IPersistentEntity entity)
         {
-            AssertUtils.ArgumentNotNull(type, "type must not be null");
+            AssertUtils.ArgumentNotNull(type, "type");
 
             _name = name;
             _type = type;

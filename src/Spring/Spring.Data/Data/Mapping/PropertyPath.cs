@@ -64,10 +64,10 @@ namespace Spring.Data.Mapping
         /// <param name="baseProperty">the <see cref="PropertyPath"/> previously found</param>
 	    public PropertyPath(string name, ITypeInformation owningType, PropertyPath baseProperty)
         {
-		    AssertUtils.ArgumentHasText(name, "name need to have a text");
-		    AssertUtils.ArgumentNotNull(owningType, "owningType must not be null");
+		    AssertUtils.ArgumentHasText(name, "name");
+		    AssertUtils.ArgumentNotNull(owningType, "owningType");
 
-		    var propertyName = Regex.IsMatch(name, AllUppercase) ? name : StringUtils.Uncapitalize(name);
+            var propertyName = name;
 		    var type = owningType.GetProperty(propertyName);
 
 		    if (type == null)

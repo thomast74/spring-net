@@ -42,8 +42,8 @@ namespace Spring.Data.Util
         /// Returns the property information for the property with the given name. Supports property traversal through dot
         /// notation.
         /// </summary>
-        /// <param name="fieldName"></param>
-	    ITypeInformation GetProperty(string fieldName);
+        /// <param name="propertyName"></param>
+	    ITypeInformation GetProperty(string propertyName);
 
         /// <summary>
 	    /// Returns whether the type can be considered a collection, which means it's a container of elements, e.g. a

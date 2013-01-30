@@ -62,8 +62,6 @@ namespace Spring.Data.Mapping.Model
                                                               typeof (Char),
                                                               typeof (String),
                                                               typeof (DateTime),
-                                                              typeof (object),
-                                                              typeof (Object),
                                                               typeof (Enum)
                                                           };
                                                               
@@ -85,7 +83,7 @@ namespace Spring.Data.Mapping.Model
         /// <param name="registerDefaults"><code>true</code> to register default types defined in <see cref="Defaults"/></param>
 	    public SimpleTypeHolder(ISet<Type> customSimpleTypes, bool registerDefaults)
         {
-		    AssertUtils.ArgumentNotNull(customSimpleTypes, "customSimpleTypes must not be null");
+		    AssertUtils.ArgumentNotNull(customSimpleTypes, "customSimpleTypes");
 
 		    _simpleTypes = new HashedSet<Type>(customSimpleTypes);
 

@@ -45,7 +45,7 @@ namespace Spring.Data.Mapping
         /// <param name="parameters">list of parameters from </param>
 	    public PreferredConstructor(ConstructorInfo constructor, params Parameter[] parameters)
         {
-		    AssertUtils.ArgumentNotNull(constructor, "constructor must not be null");
+		    AssertUtils.ArgumentNotNull(constructor, "constructor");
 
 		    _constructorInfo = constructor;
             _parameters = parameters.ToList();

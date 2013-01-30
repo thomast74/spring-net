@@ -28,7 +28,7 @@ namespace Spring.Data.Annotation
     /// <author>Oliver Gierke</author>
     /// <author>Jon Brisbin</author>
     /// <auhtor>Thomas Trageser</auhtor>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class ReferenceAttribute : Attribute
     {
     }

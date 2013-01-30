@@ -59,7 +59,7 @@ namespace Spring.Data.Mapping
 
 		    Assert.That(person.IdProperty, Is.Not.Null);
             Assert.That(person.IdProperty.Type, Is.EqualTo(typeof(string)));
-            Assert.That(person.IdProperty.Name, Is.EqualTo("_id"));
+            Assert.That(person.IdProperty.Name, Is.EqualTo("Id"));
 	    }
 
 	    [Test]
@@ -91,18 +91,18 @@ namespace Spring.Data.Mapping
                 return new BasicPersistentEntity(typeInformation);
             }
 
-            public override IPersistentProperty CreatePersistentProperty(FieldInfo fieldInfo,
+            public override IPersistentProperty CreatePersistentProperty(PropertyInfo propertyInfo,
                                                                          IPersistentEntity owner,
                                                                          SimpleTypeHolder simpleTypeHolder)
             {
-                return new SamplePropertyImpl(fieldInfo, owner, simpleTypeHolder);
+                return new SamplePropertyImpl(propertyInfo, owner, simpleTypeHolder);
             }
         }
 
         public class SamplePropertyImpl : AnnotationBasedPersistentProperty, ISampleProperty
         {
-            public SamplePropertyImpl(FieldInfo fieldInfo, IPersistentEntity owner, SimpleTypeHolder simpleTypeHolder)
-                : base(fieldInfo, owner, simpleTypeHolder)
+            public SamplePropertyImpl(PropertyInfo propertyInfo, IPersistentEntity owner, SimpleTypeHolder simpleTypeHolder)
+                : base(propertyInfo, owner, simpleTypeHolder)
             {
             }
 

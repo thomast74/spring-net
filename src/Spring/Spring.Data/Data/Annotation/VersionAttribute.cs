@@ -28,7 +28,7 @@ namespace Spring.Data.Annotation
     /// <author>Patryk Wasik</author>
     /// <author>Oliver Gierke</author>
     /// <author>Thomas Trageser</author>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class VersionAttribute : Attribute
     {
     }

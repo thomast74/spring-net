@@ -133,7 +133,7 @@ namespace Spring.Data.Mapping
             get { throw new System.NotImplementedException(); }
         }
 
-        public FieldInfo FieldInfo
+        public PropertyInfo PropertyInfo
         {
             get { throw new System.NotImplementedException(); }
         }

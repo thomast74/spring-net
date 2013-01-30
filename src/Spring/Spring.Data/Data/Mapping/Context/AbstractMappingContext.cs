@@ -191,7 +191,7 @@ namespace Spring.Data.Mapping.Context
             if (!_persistentEntities.TryAdd(typeInformation, entity))
                 throw new MappingException("Can't add entity to dictionary");
 
-            ReflectionUtils.DoWithFields(type, new PersistentPropertyCreator(this, entity), new PersistentFieldFilter());
+            ReflectionUtils.DoWithProperties(type, new PersistentPropertyCreator(this, entity), new PersistentPropertyFilter());
 
             try
             {
@@ -220,10 +220,10 @@ namespace Spring.Data.Mapping.Context
         /// <summary>
         /// Creates the concrete instance of <see cref="IMutablePersistentEntity"/>.
         /// </summary>
-        /// <param name="fieldInfo"></param>
+        /// <param name="propertyInfo"></param>
         /// <param name="owner"></param>
         /// <param name="simpleTypeHolder"></param>
-        public abstract IPersistentProperty CreatePersistentProperty(FieldInfo fieldInfo,
+        public abstract IPersistentProperty CreatePersistentProperty(PropertyInfo propertyInfo,
                                                                      IPersistentEntity owner,
                                                                      SimpleTypeHolder simpleTypeHolder);
 
@@ -266,11 +266,11 @@ namespace Spring.Data.Mapping.Context
         }
 
         /// <summary>
-        /// {@link FieldCallback} to create <see cref="IPersistentProperty"/> instances.
+        /// <see cref="IPropertyCallback"/> to create <see cref="IPersistentProperty"/> instances.
         /// </summary>
         /// <author>Oliver Gierke</author>
         /// <author>Thomas Trageser</author>
-        internal sealed class PersistentPropertyCreator : IFieldCallback
+        internal sealed class PersistentPropertyCreator : IPropertyCallback
         {
             private readonly AbstractMappingContext _context;
             private readonly IMutablePersistentEntity _entity;
@@ -284,9 +284,9 @@ namespace Spring.Data.Mapping.Context
                 _entity = entity;
             }
 
-            public void DoWith(FieldInfo fieldInfo)
+            public void DoWith(PropertyInfo propertyInfo)
             {
-                var property = _context.CreatePersistentProperty(fieldInfo, _entity, _context._simpleTypeHolder);
+                var property = _context.CreatePersistentProperty(propertyInfo, _entity, _context._simpleTypeHolder);
 
                 if (property.IsTransient)
                     return;
@@ -310,44 +310,30 @@ namespace Spring.Data.Mapping.Context
         }
 
         /// <summary>
-        /// <see cref="IFieldFilter"/> rejecting static fields as well as artifically introduced ones. See
-        /// <see cref="_unmappedFields"/> for details.
+        /// <see cref="IPropertyFilter"/> rejecting static properties as well as artifically introduced ones. See
+        /// <see cref="_unmappedProperties"/> for details.
         /// </summary>
         /// <author>Oliver Gierke</author>
         /// <author>Thomas Trageser</author>
-        internal class PersistentFieldFilter : IFieldFilter
+        internal class PersistentPropertyFilter : IPropertyFilter
         {
-            private readonly IList<FieldMatch> _unmappedFields;
+            private readonly IList<PropertyMatch> _unmappedProperties;
 
-            private static HashedSet<FieldMatch> matches = new HashedSet<FieldMatch>()
+            private static HashedSet<PropertyMatch> matches = new HashedSet<PropertyMatch>()
                                                                {
-                                                                   new FieldMatch("class", null),
-                                                                   new FieldMatch("this\\$.*", null),
-                                                                   new FieldMatch("metaClass", "groovy.lang.MetaClass")
+                                                                   new PropertyMatch("class", null),
+                                                                   new PropertyMatch("this\\$.*", null),
+                                                                   new PropertyMatch("metaClass", "groovy.lang.MetaClass")
                                                                };
 
-            public PersistentFieldFilter()
+            public PersistentPropertyFilter()
             {
-                _unmappedFields = new List<FieldMatch>(matches).AsReadOnly();
-            }
-
-            public bool Matches(FieldInfo fieldInfo)
-            {
-                if (fieldInfo.IsStatic)
-                    return false;
-
-                foreach (FieldMatch candidate in _unmappedFields)
-                {
-                    if (candidate.Matches(fieldInfo))
-                        return false;
-                }
-
-                return true;
+                _unmappedProperties = new List<PropertyMatch>(matches).AsReadOnly();
             }
 
             public bool Matches(PropertyInfo propertyInfo)
             {
-                foreach (FieldMatch candidate in _unmappedFields)
+                foreach (PropertyMatch candidate in _unmappedProperties)
                 {
                     if (candidate.Matches(propertyInfo))
                         return false;
@@ -358,22 +344,22 @@ namespace Spring.Data.Mapping.Context
         }
 
         /// <summary>
-        /// Value object to help defining field eclusion based on name patterns and types.
+        /// Value object to help defining property eclusion based on name patterns and types.
         /// </summary>
         /// <author>Oliver Gierke </author>
         /// <author>Thomas Trageser</author>
-        internal class FieldMatch
+        internal class PropertyMatch
         {
             private readonly Regex _namePattern;
             private readonly string _typeName;
 
             /// <summary>
-            /// Creates a new <see cref="FieldMatch"/> for the given name pattern and type name. 
+            /// Creates a new <see cref="PropertyMatch"/> for the given name pattern and type name. 
             /// At least one of the paramters must not be <code>null</code>.
             /// </summary>
-            /// <param name="namePattern">a regex pattern to match field names, can be <code>null</code>.</param>
+            /// <param name="namePattern">a regex pattern to match property names, can be <code>null</code>.</param>
             /// <param name="typeName">the name of the type to exclude, can be <code>null</code>.</param>
-            public FieldMatch(string namePattern, string typeName)
+            public PropertyMatch(string namePattern, string typeName)
             {
                 AssertUtils.IsTrue(!(namePattern == null && typeName == null),
                                    "Either name patter or type name must be given!");
@@ -383,16 +369,7 @@ namespace Spring.Data.Mapping.Context
             }
 
             /// <summary>
-            /// Returns whether the given <see cref="FieldInfo"/> matches the defined <see cref="FieldMatch"/>.
-            /// </summary>
-            /// <param name="fieldInfo">must not be <code>null</code>.</param>
-            public bool Matches(FieldInfo fieldInfo)
-            {
-                return Matches(fieldInfo.Name, fieldInfo.FieldType);
-            }
-
-            /// <summary>
-            /// Returns whether the given <see cref="FieldInfo"/> matches the defined <see cref="FieldMatch"/>.
+            /// Returns whether the given <see cref="PropertyInfo"/> matches the defined <see cref="PropertyMatch"/>.
             /// </summary>
             /// <param name="propertyInfo">must not be <code>null</code>.</param>
             public bool Matches(PropertyInfo propertyInfo)

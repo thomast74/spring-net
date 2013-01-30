@@ -29,7 +29,7 @@ namespace Spring.Data.Annotation
     /// <author>Oliver Gierke</author>
     /// <author>Jon Brisbin</author>
     /// <author>Thomas Trageser</author>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class TransientAttribute : Attribute
     {
     }

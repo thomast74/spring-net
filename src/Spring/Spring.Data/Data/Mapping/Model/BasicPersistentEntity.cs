@@ -135,7 +135,7 @@ namespace Spring.Data.Mapping.Model
                 {
                     throw new MappingException(string.Format(
                         "Attempt to add id property {0} but already have property {1} registered "
-                        + "as id. Check your mapping configuration!", property.FieldInfo, _idProperty.FieldInfo));
+                        + "as id. Check your mapping configuration!", property.PropertyInfo, _idProperty.PropertyInfo));
                 }
                 _idProperty = property;
 		    }
@@ -146,8 +146,8 @@ namespace Spring.Data.Mapping.Model
                 {
                     throw new MappingException(string.Format(
                         "Attempt to add version property {0} but already have property {1} registered "
-                        + "as version. Check your mapping configuration!", property.FieldInfo,
-                        _versionProperty.FieldInfo));
+                        + "as version. Check your mapping configuration!", property.PropertyInfo,
+                        _versionProperty.PropertyInfo));
                 }
                 _versionProperty = property;
 		    }

@@ -60,8 +60,8 @@ namespace Spring.Data.Util
 
 	            if (_owningType.IsGenericType && index != -1)
 	            {
-	                Type fieldType = _owningType.GetGenericArguments()[index];
-	                return ResolveType(fieldType);
+	                Type genericArgument = _owningType.GetGenericArguments()[index];
+	                return ResolveType(genericArgument);
 	            }
 
 	            return ResolveType(_variable);

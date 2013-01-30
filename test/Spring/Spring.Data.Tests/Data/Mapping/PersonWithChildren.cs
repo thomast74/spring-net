@@ -33,22 +33,16 @@ namespace Spring.Data.Mapping
     /// <author>Thomas Trageser</author>
     public class PersonWithChildren : Person
     {
-        [Id]
-	    private string id;
-
-	    [Reference]
-	    private List<Child> children;
-
 	    public PersonWithChildren(int ssn, string firstName, string lastName) 
             : base(ssn, firstName, lastName)
         {
 	    }
 
-	    public List<Child> Children
-        {
-	        get { return children; }
-            set { children = value; }
-        }
+        [Id]
+        public string Id { get; set; }
+
+        [Reference]
+        public List<Child> Children { get; set; }
 
     }
 }

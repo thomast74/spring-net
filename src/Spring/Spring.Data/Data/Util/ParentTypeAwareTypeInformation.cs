@@ -57,14 +57,14 @@ namespace Spring.Data.Util
         /// <summary>
         /// Creates <see cref="ITypeInformation"/> for the given <see cref="Type"/>.
         /// </summary>
-	    public override ITypeInformation CreateInfo(Type fieldType)
+	    public override ITypeInformation CreateInfo(Type propertyType)
         {
-		    if (_parent != null && _parent.Type == fieldType)
+		    if (_parent != null && _parent.Type == propertyType)
             {
 			    return _parent;
 		    }
 
-		    return base.CreateInfo(fieldType);
+		    return base.CreateInfo(propertyType);
 	    }
 
         public override string ToString()

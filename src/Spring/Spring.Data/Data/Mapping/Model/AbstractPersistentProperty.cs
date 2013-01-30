@@ -37,23 +37,23 @@ namespace Spring.Data.Mapping.Model
 	    protected readonly string _name;
 	    protected readonly ITypeInformation _information;
 	    protected readonly Type _rawType;
-	    protected readonly FieldInfo _fieldInfo;
+	    protected readonly PropertyInfo _propertyInfo;
 	    protected readonly Association _association;
 	    protected readonly IPersistentEntity _owner;
 
 	    private readonly SimpleTypeHolder _simpleTypeHolder;
 
 
-	    public AbstractPersistentProperty(FieldInfo fieldInfo, IPersistentEntity owner, SimpleTypeHolder simpleTypeHolder)
+	    public AbstractPersistentProperty(PropertyInfo propertyInfo, IPersistentEntity owner, SimpleTypeHolder simpleTypeHolder)
         {
-		    AssertUtils.ArgumentNotNull(fieldInfo, "fieldInfo must not be null");
-		    AssertUtils.ArgumentNotNull(owner, "owner must not be null");
-		    AssertUtils.ArgumentNotNull(simpleTypeHolder, "simpleTypeHolder must not be null");
+            AssertUtils.ArgumentNotNull(propertyInfo, "propertyInfo");
+		    AssertUtils.ArgumentNotNull(owner, "owner");
+		    AssertUtils.ArgumentNotNull(simpleTypeHolder, "simpleTypeHolder");
 
-	        _name = fieldInfo.Name;
-	        _rawType = fieldInfo.FieldType;
+            _name = propertyInfo.Name;
+            _rawType = propertyInfo.PropertyType;
 		    _information = owner.TypeInformation.GetProperty(_name);
-		    _fieldInfo = fieldInfo;
+            _propertyInfo = propertyInfo;
 		    _association = IsAssociation ? CreateAssociation() : null;
 		    _owner = owner;
 		    _simpleTypeHolder = simpleTypeHolder;
@@ -117,9 +117,9 @@ namespace Spring.Data.Mapping.Model
             return typeInformation == null || _simpleTypeHolder.IsSimpleType(typeInformation.Type) ? null : typeInformation;
 	    }
 
-	    public FieldInfo FieldInfo
+	    public PropertyInfo PropertyInfo
         {
-	        get { return _fieldInfo; }
+	        get { return _propertyInfo; }
         }
 
 	    public virtual string SpelExpression
@@ -141,7 +141,7 @@ namespace Spring.Data.Mapping.Model
         {
             get
             {
-                return Attribute.GetCustomAttribute(_fieldInfo, typeof (ReferenceAttribute)) != null;
+                return Attribute.GetCustomAttribute(_propertyInfo, typeof (ReferenceAttribute)) != null;
             }
         }
 
@@ -204,14 +204,14 @@ namespace Spring.Data.Mapping.Model
 
 		    var that = (AbstractPersistentProperty) obj;
 
-	        if (_fieldInfo != null && that._fieldInfo == null) return false;
+	        if (_propertyInfo != null && that._propertyInfo == null) return false;
 
-	        return _fieldInfo.Equals(that._fieldInfo);
+	        return _propertyInfo.Equals(that._propertyInfo);
         }
 
 	    public override int GetHashCode()
 	    {	        
-	        return _fieldInfo.GetHashCode();
+	        return _propertyInfo.GetHashCode();
 	    }
     }
 }

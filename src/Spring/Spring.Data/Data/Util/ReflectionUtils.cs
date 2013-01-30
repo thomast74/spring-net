@@ -50,25 +50,25 @@ namespace Spring.Data.Util
         }
 
         /// <summary>
-        /// Invoke the given callback on all fields in the target class, going up the
-        /// class hierarchy to get all declared fields.
+        /// Invoke the given callback on all properties in the target class, going up the
+        /// class hierarchy to get all declared properties.
         /// </summary>
         /// <param name="type"></param>
         /// <param name="fc"></param>
         /// <param name="ff"></param>
-	    public static void DoWithFields(Type type, IFieldCallback fc, IFieldFilter ff)
+	    public static void DoWithProperties(Type type, IPropertyCallback fc, IPropertyFilter ff)
         {
 		    // Keep backing up the inheritance hierarchy.
 		    do {
-			    FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
-			    foreach(FieldInfo field in fields) 
+			    PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+			    foreach(var property in properties) 
                 {
-				    // Skip static and final fields.
-				    if (ff != null && !ff.Matches(field)) 
+				    // Skip static and final properties.
+				    if (ff != null && !ff.Matches(property)) 
                     {
 					    continue;
 				    }
-					fc.DoWith(field);
+					fc.DoWith(property);
 			    }
 			    type = type.BaseType;
 		    }
@@ -77,31 +77,24 @@ namespace Spring.Data.Util
     }
 
     /// <summary>
-    /// Callback interface invoked on each field in the hierarchy.
+    /// Callback interface invoked on each property in the hierarchy.
     /// </summary>
-	public interface IFieldCallback 
+	public interface IPropertyCallback 
     {
         /// <summary>
-        /// Perform an operation using the given field.
+        /// Perform an operation using the given property.
         /// </summary>
-        /// <param name="fieldInfo"></param>
-		void DoWith(FieldInfo fieldInfo);
+        /// <param name="propertyInfo"></param>
+		void DoWith(PropertyInfo propertyInfo);
 	}
 
 	/// <summary>
-	///  Callback optionally used to filter fields to be operated on by a field callback.
+	///  Callback optionally used to filter properties to be operated on by a property callback.
 	/// </summary>
-	public interface IFieldFilter 
+	public interface IPropertyFilter 
     {
         /// <summary>
-        /// Determine whether the given field matches.
-        /// </summary>
-        /// <param name="fieldInfo"></param>
-        /// <returns></returns>
-		bool Matches(FieldInfo fieldInfo);
-
-        /// <summary>
-        /// Determine whether the given field matches.
+        /// Determine whether the given property matches.
         /// </summary>
         /// <param name="propertyInfo"></param>
         /// <returns></returns>
