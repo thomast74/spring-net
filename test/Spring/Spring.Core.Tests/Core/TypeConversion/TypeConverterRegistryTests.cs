@@ -58,9 +58,25 @@ namespace Spring.Core.TypeConversion
         }
 
         [Test]
+        public void GetSpringConverterGeneric()
+        {
+            TypeConverter converter = TypeConverterRegistry.GetConverter<string[]>();
+            Assert.IsTrue(converter is StringArrayConverter);
+        }
+
+        [Test]
         public void RegisterConverter()
         {
             TypeConverterRegistry.RegisterConverter("System.DateTime", "System.ComponentModel.DateTimeConverter");
+        }
+
+        [Test]
+        public void RegisterConverterGeneric()
+        {
+            var converter = new TestConverter();
+            TypeConverterRegistry.RegisterConverter<int>(converter);
+
+            Assert.That(TypeConverterRegistry.GetConverter(typeof(int)), Is.SameAs(converter));
         }
 
         [Test]
@@ -75,6 +91,40 @@ namespace Spring.Core.TypeConversion
         public void RegisterConverterWithNonTypeConverter()
         {
             TypeConverterRegistry.RegisterConverter("System.DateTime", "System.DateTime");
+        }
+
+        [Test]
+        public void CanConvert()
+        {
+            bool canConvert = TypeConverterRegistry.CanConvert(typeof(string), typeof(string[]));
+            Assert.IsTrue(canConvert);
+
+            canConvert = TypeConverterRegistry.CanConvert(typeof(double), typeof(string[]));
+            Assert.IsFalse(canConvert);
+        }
+
+        [Test]
+        public void CanConvertGeneric()
+        {
+            bool canConvert = TypeConverterRegistry.CanConvert<string, string[]>();
+            Assert.IsTrue(canConvert);
+
+            canConvert = TypeConverterRegistry.CanConvert<double, string[]>();
+            Assert.IsFalse(canConvert);
+        }
+
+    }
+
+    public class TestConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return true;
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            return null;
         }
     }
 }

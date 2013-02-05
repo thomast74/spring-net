@@ -104,6 +104,48 @@ namespace Spring.Core.TypeConversion
             
             return converter;
         }
+
+        /// <summary>
+        /// Returns <see cref="TypeConverter"/> for the specified type.
+        /// </summary>
+        /// <typeparam name="TTargetType">Type to get the converter for.</typeparam>        
+        /// <returns>a type converter for the specified type.</returns>
+        public static TypeConverter GetConverter<TTargetType>()
+        {
+            return GetConverter(typeof (TTargetType));
+        }
+
+        /// <summary>
+        /// Returns wether the current TypeConverterRegistery has a converter that can convert the sourceType
+        /// into the targetType
+        /// </summary>
+        /// <param name="sourceType">the source Type of the value</param>
+        /// <param name="targetType">the target Type to convert to</param>
+        /// <returns>
+        /// <code>true</code> if there is a converter tho convert the source type into the target type,
+        /// otherwise it returns <code>false</code>
+        /// </returns>
+        public static bool CanConvert(Type sourceType, Type targetType)
+        {
+            TypeConverter typeConverter = GetConverter(targetType);
+
+            return typeConverter.CanConvertFrom(sourceType);
+        }
+
+        /// <summary>
+        /// Returns wether the current TypeConverterRegistery has a converter that can convert the sourceType
+        /// into the targetType
+        /// </summary>
+        /// <typeparam name="TSourceType">the source Type of the value</typeparam>
+        /// <typeparam name="TTargetType">the target Type to convert to</typeparam>
+        /// <returns>
+        /// <code>true</code> if there is a converter tho convert the source type into the target type,
+        /// otherwise it returns <code>false</code>
+        /// </returns>
+        public static bool CanConvert<TSourceType, TTargetType>()
+        {
+            return CanConvert(typeof (TSourceType), typeof (TTargetType));
+        }
         
         /// <summary>
         /// Registers <see cref="TypeConverter"/> for the specified type.
@@ -120,6 +162,17 @@ namespace Spring.Core.TypeConversion
             {
                 converters[type] = converter;
             }
+        }
+
+        /// <summary>
+        /// Registers <see cref="TypeConverter"/> for the specified type.
+        /// </summary>
+        /// <typeparam name="TTargetType">Type to register the converter for.</typeparam>
+        /// <param name="converter">Type converter to register.</param>
+        /// <exception cref="ArgumentNullException">If either of arguments is <c>null</c>.</exception>
+        public static void RegisterConverter<TTargetType>(TypeConverter converter)
+        {
+            RegisterConverter(typeof(TTargetType), converter);
         }
 
         /// <summary>
