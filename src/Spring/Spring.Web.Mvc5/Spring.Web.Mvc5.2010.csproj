@@ -40,7 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging">
-      <HintPath>..\..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+      <HintPath>..\..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -100,20 +103,20 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Spring.Web.Mvc4\Context\Support\MvcApplicationContext.cs">
+    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcApplicationContext.cs">
       <Link>Context\Support\MvcApplicationContext.cs</Link>
     </Compile>
-    <Compile Include="..\Spring.Web.Mvc4\Context\Support\MvcApplicationContextArgs.cs">
+    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcApplicationContextArgs.cs">
       <Link>Context\Support\MvcApplicationContextArgs.cs</Link>
     </Compile>
-    <Compile Include="..\Spring.Web.Mvc4\Context\Support\MvcContextHandler.cs">
+    <Compile Include="..\Spring.Web.Mvc3\Context\Support\MvcContextHandler.cs">
       <Link>Context\Support\MvcContextHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Spring.Web.Mvc3\SpringMvcDependencyResolver.cs">
+      <Link>SpringMvcDependencyResolver.cs</Link>
     </Compile>
     <Compile Include="..\Spring.Web.Mvc4\SpringMvcApplication.cs">
       <Link>SpringMvcApplication.cs</Link>
-    </Compile>
-    <Compile Include="..\Spring.Web.Mvc4\SpringMvcDependencyResolver.cs">
-      <Link>SpringMvcDependencyResolver.cs</Link>
     </Compile>
     <Compile Include="..\Spring.Web.Mvc4\SpringWebApiDependencyResolver.cs">
       <Link>SpringWebApiDependencyResolver.cs</Link>

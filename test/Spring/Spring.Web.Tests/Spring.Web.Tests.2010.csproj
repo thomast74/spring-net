@@ -133,9 +133,7 @@
     </Compile>
     <Compile Include="Web\Services\WebServiceExporterTests.cs" />
     <Compile Include="Web\Support\AbstractHandlerFactoryTests.cs" />
-    <Compile Include="Web\Support\ControlInterceptionTests.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="Web\Support\ControlInterceptionTests.cs" />
     <Compile Include="Web\Support\HandlerMapTests.cs" />
     <Compile Include="Web\Support\LocalResourceManagerTests.cs" />
     <Compile Include="Web\Support\MimeMediaTypeTests.cs" />
@@ -193,7 +191,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Common.Logging">
-      <HintPath>..\..\..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+      <HintPath>..\..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -249,6 +251,9 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
